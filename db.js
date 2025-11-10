@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
+dotenv.config();
 
-const mongoURL='mongodb://127.0.0.1:27017/project'
+const mongoURL =(process.env.MONGO_URL)
 
-export const connectDB=async ()=>{
-    mongoose.connect(mongoURL)
-    console.log('dbconnected');
-    
+export const connectDB = async () => {
+    try {
+        await mongoose.connect(mongoURL);
+        console.log('dbconnected');
+    } catch (error) {
+        console.error('Database connection error:', error);
+        process.exit(1);
+    }
 }
 
