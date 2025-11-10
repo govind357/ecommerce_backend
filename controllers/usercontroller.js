@@ -3,9 +3,13 @@ import productCollection from "../module/product.js";
 import Cart from "../module/cart.js";
 import orders from "../module/orders.js";
 export const addcart = async (req, res) => {
+    console.log('reached');
+    
     try {
         const userid = req.session.userid;
         const productId = req.params.id;
+        console.log(productId);
+        
         const { quantity } = req.body;
 
 
@@ -82,6 +86,7 @@ export const removeFromCart = async (req, res) => {
         const userId = req.session.userid;
         const productId = req.params.id;
 
+console.log(productId);
 
         const cart = await Cart.findOne({ userId });
         if (!cart) {
@@ -160,7 +165,7 @@ export const getCart = async (req, res) => {
 
 
 
-// //////////////order///////////////
+// //////////////order//////////////
 export async function createOrder(req, res) {
     const userId = req.session.userid;
     const cart = await Cart.findOne({ userId }).populate("items.productId");
@@ -191,7 +196,10 @@ export async function createOrder(req, res) {
 
 // ////////////get all order//////////
 export const getAllOrder = async (req, res) => {
+    console.log('reached');
+    
     const userId = req.session.userid;
+    
     const userorders = await orders.find({ userId }).populate("items.productId");
     if (!userorders || userorders.length === 0) {
         return res.status(404).json({ message: "No orders found" });
@@ -214,4 +222,26 @@ export const getTheOrder = async (req, res) => {
         return res.status(404).json({ message: "Order not found" });
     }
     res.status(200).json({ message: "Order fetched successfully", order });
+}
+
+export const logout= async(req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Logout failed" });
+        }
+        res.clearCookie("connect.sid"); 
+        res.status(200).json({ message: "Logged out successfully" });
+    });
+};
+
+
+
+export const getCategories = async (req, res) => {
+  try {
+    const categories = await categoryCollection.find()
+    res.status(200).json(categories)
+  } catch (error) {
+    res.status(500).json({ error: 'serber errror' });
+  }
 }

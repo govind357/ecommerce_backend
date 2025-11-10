@@ -5,7 +5,11 @@ const productschema = new mongoose.Schema({
   price: { type: Number, required: true, min: 0 },
   // image: { type: String, required: true }
   description: { type: String, required: true }, 
-  category: { type: mongoose.Schema.Types.ObjectId, ref:'category' , required: true } 
+  category: { type: mongoose.Schema.Types.ObjectId, ref:'category' , required: true } ,
+  productImage:{
+        type:String,
+        required:true
+    },
 });
 
 const productCollection = mongoose.model("products", productschema);

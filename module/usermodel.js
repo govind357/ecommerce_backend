@@ -9,3 +9,4 @@ const userschema=new mongoose.Schema({
 
 const users =mongoose.model('users',userschema)
 export default users
+
