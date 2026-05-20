@@ -4,7 +4,6 @@ import { categoryCollection } from '../module/category.js';
 
 export const register=async(req,res)=>{
     const {username,email,password}=req.body
-    console.log(req.body);
     const userexists=await users.findOne({username:username})
   
     if(userexists){
@@ -28,6 +27,7 @@ const hashedpassword=await bcrypt.hash(password,10)
 
  export const   loginfunction = async (req, res) => {
   try {
+    
     const { email, password } = req.body;
     const user = await users.findOne({ email });
 
@@ -44,6 +44,7 @@ const hashedpassword=await bcrypt.hash(password,10)
     req.session.username = user.username;
     req.session.userid = user._id;
     await req.session.save();
+    
 
     return res.status(200).json({ message: "Login successful"});
   } catch (error) {
@@ -58,7 +59,6 @@ export const userSessionChecking= (req,res,next)=>{
     console.log('helo',req.session.userid)
     
     if(req.session.userid){
-        console.log('user',req.session.userid);
         
         return next()
     }else{
@@ -73,10 +73,8 @@ export const userSessionChecking= (req,res,next)=>{
 export const adminLoginfunction=async (req,res)=>{
    try{
      const {email,password}=req.body
-    console.log(password);
     
     const user=await users.findOne({email:email})
-    console.log(user.email);
     
     if(!user){
         res.send('incorect email');
@@ -113,7 +111,6 @@ await req.session.save()
 export const sessionChecking= (req,res,next)=>{
     console.log(req.session.userrole);
     if(req.session.userrole){
-        console.log(req.session.userrole);
         
         return next()
     }else{

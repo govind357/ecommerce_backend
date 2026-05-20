@@ -4,7 +4,10 @@ import { categoryCollection } from "../module/category.js";
 
 export const listproduct = async (req, res) => {
   try {
+    
     const productList = await productCollection.find();
+    
+    
     return res.status(200).json(  productList );
   } catch (err) {
     console.error("Error fetching products:", err);
@@ -27,7 +30,6 @@ export const getProductsById = async (req, res) => {
 }
 
 export const getCategories = async (req, res) => {
-  console.log('reached');
   
   try {
     const categories = await categoryCollection.find()
@@ -41,7 +43,6 @@ export const filltercat = async (req, res) => {
   
   
   const categoryId = req.params.id;
-  console.log(categoryId);
   
   const products = await productCollection.find({ category:categoryId });
   res.json({ products });

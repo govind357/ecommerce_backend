@@ -3,12 +3,10 @@ import productCollection from "../module/product.js";
 import Cart from "../module/cart.js";
 import orders from "../module/orders.js";
 export const addcart = async (req, res) => {
-    console.log('reached');
     
     try {
         const userid = req.session.userid;
         const productId = req.params.id;
-        console.log(productId);
         
         const { quantity } = req.body;
 
